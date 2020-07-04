@@ -15,6 +15,10 @@ cloudron install --appstore-id io.cloudron.surfer
 
 ## Building
 
+### Docker image
+- Run the following command (replace <version> with correct tag):  
+`docker buildx build --platform linux/amd64,linux/arm64 -t tarbadev/surfer:<version> --push .`
+
 ### Cloudron
 The app package can be built using the [Cloudron command line tooling](https://cloudron.io/references/cli.html).
 
