@@ -71,7 +71,7 @@ webdavServer.setFileSystem('/', new webdav.PhysicalFileSystem(ROOT_FOLDER), func
     console.log(`Mounting ${ROOT_FOLDER} as webdav resource`, success);
 });
 
-var multipart = multipart({ maxFieldsSize: 2 * 1024, limit: '512mb', timeout: 3 * 60 * 1000 });
+var multipartOptions = { maxFieldsSize: 2 * 1024, limit: '1gb', timeout: 3 * 60 * 1000 };
 
 router.post  ('/api/login', auth.login);
 router.post  ('/api/logout', auth.verify, auth.logout);
@@ -82,7 +82,7 @@ router.post  ('/api/tokens', auth.verify, auth.createToken);
 router.delete('/api/tokens/:token', auth.verify, auth.delToken);
 router.get   ('/api/profile', auth.verify, auth.getProfile);
 router.get   ('/api/files/*', auth.verify, files.get);
-router.post  ('/api/files/*', auth.verify, multipart, files.post);
+router.post  ('/api/files/*', auth.verify, multipart(multipartOptions), files.post);
 router.put   ('/api/files/*', auth.verify, files.put);
 router.delete('/api/files/*', auth.verify, files.del);
 router.get   ('/api/healthcheck', function (req, res) { res.status(200).send(); });

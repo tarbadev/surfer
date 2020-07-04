@@ -1,12 +1,14 @@
-FROM cloudron/base:1.0.0@sha256:147a648a068a2e746644746bbfb42eb7a50d682437cead3c67c933c546357617
+FROM node:12
 
-RUN mkdir -p /app/code
-WORKDIR /app/code
+WORKDIR /app
 
-ADD src /app/code/src
-ADD frontend /app/code/frontend
-ADD package.json package-lock.json server.js start.sh /app/code/
+COPY package*.json ./
+RUN npm install
 
-RUN npm install --production
+COPY src/ ./src
+COPY frontend/ ./frontend
+COPY server.js ./server.js
 
-CMD [ "/app/code/start.sh" ]
+EXPOSE 3000
+
+CMD [ "node", "server.js", "/files" ]
